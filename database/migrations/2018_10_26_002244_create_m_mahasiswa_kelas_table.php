@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateMAbsensisTable extends Migration
+class CreateMMahasiswaKelasTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,10 @@ class CreateMAbsensisTable extends Migration
      */
     public function up()
     {
-        Schema::create('m_absensis', function (Blueprint $table) {
-          $table->increments('id_absen');
-          $table->date('tanggal');
-          $table->integer('id_jadwal');
-          $table->timestamps();
+        Schema::create('m_mahasiswa_kelas', function (Blueprint $table) {
+            $table->increments('id');
+            $table->string('sdm');
+            $table->timestamps();
         });
     }
 
@@ -28,6 +27,6 @@ class CreateMAbsensisTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('m_absensis');
+        Schema::dropIfExists('m_mahasiswa_kelas');
     }
 }

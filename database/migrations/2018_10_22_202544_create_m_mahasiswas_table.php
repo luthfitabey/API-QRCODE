@@ -14,11 +14,18 @@ class CreateMMahasiswasTable extends Migration
     public function up()
     {
         Schema::create('m_mahasiswas', function (Blueprint $table) {
-          $table->double('niu');
+           $table->increments('id');
+           $table->double('niu');
+           $table->double('nif');
+           $table->integer('angkatan');
            $table->string('nama');
            $table->string('prodi');
-           $table->integer('angkatan');
-           $table->double('imei');
+           $table->double('nik');
+           $table->string('alamat');
+           $table->string('no_rek');
+           $table->string('nama_rek');
+           $table->string('npwp');
+           $table->double('no_telp');
            $table->timestamps();
         });
     }

@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class mDosen extends Model
+class mSesi extends Model
 {
     protected $guarded = [''];
 }

@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateMDosensTable extends Migration
+class CreateMSksTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,11 @@ class CreateMDosensTable extends Migration
      */
     public function up()
     {
-        Schema::create('m_dosens', function (Blueprint $table) {
-          $table->double('nidn');
-          $table->string('nama');
-          $table->timestamps();
+        Schema::create('m_sks', function (Blueprint $table) {
+            $table->increments('id');
+            $table->integer('maks_pertemuan');
+            $table->integer('sks');
+            $table->timestamps();
         });
     }
 
@@ -27,6 +28,6 @@ class CreateMDosensTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('m_dosens');
+        Schema::dropIfExists('m_sks');
     }
 }

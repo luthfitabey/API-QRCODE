@@ -21,10 +21,16 @@ class MahasiswaController extends Controller
     { //dd($request);
         $request->validate([
           'niu'     => 'required',
+          'nif'     => 'required',
+          'angkatan'=> 'required',
           'nama'    => 'required',
           'prodi'   => 'required',
-          'angkatan'=> 'required',
-          'imei'    => 'required'
+          'nik'   => 'required',
+          'alamat'   => 'required',
+          'no_rek'   => 'required',
+          'nama_rek'   => 'required',
+          'npwp'   => 'required',
+          'no_telp'   => 'required',
         ]);
 
         $mahasiswa = mMahasiswa::create($request->all());

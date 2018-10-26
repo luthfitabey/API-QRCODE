@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class mAbsensi extends Model
+class mMahasiswaKelas extends Model
 {
     protected $guarded = [''];
 }
