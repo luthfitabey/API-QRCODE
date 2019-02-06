@@ -5,7 +5,7 @@ use App\Http\Controllers\Controller;
 use App\User;
 use Illuminate\Support\Facades\Auth;
 use Validator;
-
+use Illuminate\Support\Facades\DB;
 
 
 class UserController extends Controller
@@ -17,7 +17,7 @@ public $successStatus = 200;
      * @return \Illuminate\Http\Response
      */
     public function login(){
-        if(Auth::attempt(['email' => request('email'), 'password' => request('password')])){
+        if(Auth::attempt(['username' => request('username'), 'password' => request('password')])){
             $user = Auth::user();
             $success['token'] =  $user->createToken('MyApp')-> accessToken;
             return response()->json(['success' => $success], $this-> successStatus);
@@ -35,7 +35,7 @@ public $successStatus = 200;
     {
         $validator = Validator::make($request->all(), [
             'name' => 'required',
-            'email' => 'required|email',
+            'username' => 'required|numeric',
             'password' => 'required',
             'c_password' => 'required|same:password',
         ]);
@@ -45,7 +45,7 @@ if ($validator->fails()) {
 $input = $request->all();
         $input['password'] = bcrypt($input['password']);
         $user = User::create($input);
-        $success['token'] =  $user->createToken('MyApp')-> accessToken;
+        // $success['token'] =  $user->createToken('MyApp')-> accessToken;
         $success['name'] =  $user->name;
 return response()->json(['success'=>$success], $this-> successStatus);
     }
@@ -57,6 +57,56 @@ return response()->json(['success'=>$success], $this-> successStatus);
     public function details()
     {
         $user = Auth::user();
-        return response()->json(['success' => $user], $this-> successStatus);
+        $profil = \App\mMahasiswa::with(['user'])->first();
+        $profil->user->user_id;
+
+         $res['message'] = "Success!";
+         $res['profiles'] = $profil;
+         return response($res);
+
+        // return response()->json(['success' => $profil], $this-> successStatus);
     }
+    public function history()
+    {
+        $user = Auth::user()->id;
+        // dd($user);
+        $history = DB::table('m_detail_pertemuans')
+            ->where('id_mhs', $user)
+            // ->paginate(20);
+            ->take(20)
+            ->get();
+
+         $res['message'] = "Success!";
+         $res['values'] = $history;
+         return response($res);
+    }
+
+    public function update(Request $request, $id)
+    {
+      $user = User::find($id);
+      // $user = Auth::user()->id;
+      // dd($user);
+      // $detail = \App\mDetailPertemuan::find($id);
+       if ($user){
+            // $input = $request->all();
+            //   $input['password'] = bcrypt($input['password']);
+            $password = $request->input('password');
+
+
+              $data = \App\User::where('id',$id)->first();
+              $data->password = bcrypt($password);
+
+              if($data->save()){
+                return response()->json([
+                        'message' => 'Post has been updated',
+                        'result'  => $data
+                    ]);
+              }
+              else{
+                return response()->json([
+                    'message' => 'Post not found',
+                ], 404);
+              }
+        }
+      }
 }

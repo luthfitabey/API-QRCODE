@@ -3,61 +3,38 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\mJadwal;
+use App\mKelas;
+use Illuminate\Support\Facades\DB;
+// use Illuminate\Database\Query\Builder;
+use Validator;
 
 class JadwalController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
-    }
+  public function index()
+  {
+    $data=  DB::table('m_kelas')
+    ->select('*')
+    ->join('m_jadwals','m_jadwals.id_kls','=','m_kelas.id')
+    ->join('m_sesis','m_sesis.sesi','=','m_jadwals.id_sesi')
+    // ->get();
+    ->orderBy('id_th', 'DESC')
+    ->orderBy('hari', 'DESC')
+    ->orderBy('sesi', 'ASC')
+    // ->paginate(25);
+    ->take(25)
+    ->get();
+    // dd($data);
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
+      if(count($data) > 0){ //mengecek apakah data kosong atau tidak
+       $res['message'] = "Success!";
+       $res['values'] = $data;
+       return response($res);
+     }
+     else{
+         $res['message'] = "Empty!";
+         return response($res);
+     }
+  }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
 }
